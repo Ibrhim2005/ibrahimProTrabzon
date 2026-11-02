@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ title }}</title>
+
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+<body>
+    <main class="container">
+        <h1>Привет, {{ name }}!</h1>
+
+        <p class="intro">Добро пожаловать на учебный сайт.</p>
+
+        {% if learning_started %}
+            <p>Продолжай обучение — у тебя всё получится!</p>
+        {% else %}
+            <p>Выбери курс и начни обучение.</p>
+        {% endif %}
+
+        <p>Завершено уроков: {{ completed_lessons }}</p>
+
+        <h2>Доступные курсы</h2>
+
+        <div class="courses">
+            {% for course in courses %}
+                <article class="card">
+                    <h3>{{ course.name }}</h3>
+
+                    <p>Количество уроков: {{ course.lessons }}</p>
+
+                    {% if course.lessons >= 25 %}
+                        <p class="badge">Большой курс</p>
+                    {% else %}
+                        <p class="badge">Короткий курс</p>
+                    {% endif %}
+                </article>
+            {% empty %}
+                <p>Курсов пока нет.</p>
+            {% endfor %}
+        </div>
+
+        <a class="button" href="{% url 'about' %}">О сайте</a>
+    </main>
+</body>
+</html>
