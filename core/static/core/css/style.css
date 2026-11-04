@@ -62,3 +62,37 @@ body {
 .button:hover {
     background-color: #1e40af;
 }
+
+.card:hover {
+    border-color: #1d4ed8;
+}
+
+.greeting-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+    margin-bottom: 24px;
+}
+
+.greeting-form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.greeting-form .button {
+    margin-top: 0;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+}
+
+.result {
+    padding: 16px;
+    background-color: #dcfce7;
+    color: #166534;
+    border-radius: 10px;
+}
