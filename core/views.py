@@ -26,12 +26,32 @@ def about(request):
     return render(request, "core/about.html", context)
 
 def greeting(request):
-    name = request.GET.get("name", "").strip()
-    number = request.GET.get("number", "").strip()
+    name = ""
+    error = ""
+    city = ""
+    success = False
+
+    if request.method == "POST":
+        name = request.POST.get("name", "").strip()
+        city = request.POST.get("city", "").strip()
+
+        if not name:
+            error = "Введите имя."
+        elif len(name) < 2:
+            error = "Имя должно содержать минимум 2 символа."
+        elif len(name) > 50:
+            error = "Имя должно содержать не больше 50 символов."
+        elif  not city:
+            error = "Введите ваш город"
+        else:
+            success = True
+
     context = {
-        "title": "Приветствие",
+        "title": "POST-форма",
         "name": name,
-        "number": number,
+        "city": city,
+        "error": error,
+        "success": success,
     }
 
     return render(request, "core/greeting.html", context)

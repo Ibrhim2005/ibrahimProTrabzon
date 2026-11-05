@@ -11,9 +11,15 @@
 </head>
 <body>
     <main class="container">
-        <h1>Приветствие</h1>
+        <h1>POST-форма</h1>
 
-        <form action="{% url 'greeting' %}" method="get" class="greeting-form">
+        <form
+            action="{% url 'greeting' %}"
+            method="post"
+            class="greeting-form"
+        >
+            {% csrf_token %}
+
             <label for="name">Твоё имя:</label>
 
             <input
@@ -23,29 +29,32 @@
                 value="{{ name }}"
                 placeholder="Например, Али"
                 required
+                minlength="2"
+                maxlength="50"
             >
             <input
                 type="text"
-                id="number"
-                name="number"
-                value="{{ number }}"
-                placeholder="Например, Али"
+                id="city"
+                name="city"
+                value="{{ city }}"
+                placeholder="Например, Trabzon"
+                minlength="2"
+                maxlength="50"
             >
 
-
             <button type="submit" class="button">
-                Показать приветствие
+                Отправить
             </button>
         </form>
 
-        {% if name %}
-            <p class="result">Привет, {{ name }}!</p>
-        {% else %}
-            <p>Введи имя и нажми кнопку.</p>
+        {% if error %}
+            <p class="error" role="alert">{{ error }}</p>
         {% endif %}
-        {% if number %}
-            <p class="result">Ваше число {{ number }}</p>
+
+        {% if success %}
+            <p class="result">Привет, {{ name }}!.Ваш город, {{ city }}</p>
         {% endif %}
+
         <a href="{% url 'home' %}">На главную</a>
     </main>
 </body>
