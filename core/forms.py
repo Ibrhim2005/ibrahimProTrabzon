@@ -21,7 +21,26 @@ class GreetingForm(forms.Form):
             "max_length": "Название города слишком длинное.",
         },
     )
-
+    age = forms.IntegerField(
+        label="Твой возраст",
+        min_value=1,
+        max_value=100,
+        error_messages={
+            "required": "Введите возраст.",
+            "invalid": "Введите целое число",
+            "min_value": "Возраст должен быть не меньше 1",
+            "max_value": "Возраст должен быть не больше 120",
+        },
+    )
+    email = forms.EmailField(
+        label="Email",
+        max_length=250,
+        error_messages={
+            "required": "Введите email",
+            "invalid": "Введите корректный email",
+            "max_length": "Email слишком длинный"
+        }
+    )
     comment = forms.CharField(
         label="Ваш комментарий",
         max_length=1000,
@@ -30,3 +49,12 @@ class GreetingForm(forms.Form):
             "max_length": "Комментарий должен содержать не больше 300 символов.",
         }
     )
+
+    def clean_name(self):
+        name = self.cleaned_data["name"]
+        if name.lower() == "admin":
+            raise forms.ValidationError(
+                "Этот имя уже зарегистрировано",
+                code="reserved_name",
+            )
+        return name
