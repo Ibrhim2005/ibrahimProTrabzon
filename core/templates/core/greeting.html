@@ -11,7 +11,7 @@
 </head>
 <body>
     <main class="container">
-        <h1>POST-форма</h1>
+        <h1>Форма приветствия</h1>
 
         <form
             action="{% url 'greeting' %}"
@@ -20,39 +20,28 @@
         >
             {% csrf_token %}
 
-            <label for="name">Твоё имя:</label>
+            {{ form.non_field_errors }}
 
-            <input
-                type="text"
-                id="name"
-                name="name"
-                value="{{ name }}"
-                placeholder="Например, Али"
-                required
-                minlength="2"
-                maxlength="50"
-            >
-            <input
-                type="text"
-                id="city"
-                name="city"
-                value="{{ city }}"
-                placeholder="Например, Trabzon"
-                minlength="2"
-                maxlength="50"
-            >
+            {% for field in form %}
+                <div class="form-field">
+                    {{ field.label_tag }}
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                        <p class="error" role="alert">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
 
             <button type="submit" class="button">
                 Отправить
             </button>
         </form>
 
-        {% if error %}
-            <p class="error" role="alert">{{ error }}</p>
-        {% endif %}
-
-        {% if success %}
-            <p class="result">Привет, {{ name }}!.Ваш город, {{ city }}</p>
+        {% if result %}
+            <p class="result">{{ result }}</p>
         {% endif %}
 
         <a href="{% url 'home' %}">На главную</a>

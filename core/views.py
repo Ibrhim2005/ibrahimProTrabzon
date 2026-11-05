@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from .forms import GreetingForm
+
 
 def home(request):
     context = {
@@ -26,32 +28,23 @@ def about(request):
     return render(request, "core/about.html", context)
 
 def greeting(request):
-    name = ""
-    error = ""
-    city = ""
-    success = False
+    result = ""
 
     if request.method == "POST":
-        name = request.POST.get("name", "").strip()
-        city = request.POST.get("city", "").strip()
+        form = GreetingForm(request.POST)
 
-        if not name:
-            error = "Введите имя."
-        elif len(name) < 2:
-            error = "Имя должно содержать минимум 2 символа."
-        elif len(name) > 50:
-            error = "Имя должно содержать не больше 50 символов."
-        elif  not city:
-            error = "Введите ваш город"
-        else:
-            success = True
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            city = form.cleaned_data["city"]
+
+            result = f"Привет, {name}! Твой город: {city}."
+    else:
+        form = GreetingForm()
 
     context = {
-        "title": "POST-форма",
-        "name": name,
-        "city": city,
-        "error": error,
-        "success": success,
+        "title": "Django Forms",
+        "form": form,
+        "result": result,
     }
 
     return render(request, "core/greeting.html", context)
