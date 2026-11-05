@@ -36,8 +36,10 @@ def greeting(request):
         if form.is_valid():
             name = form.cleaned_data["name"]
             city = form.cleaned_data["city"]
-
+            comment = form.cleaned_data["comment"]
             result = f"Привет, {name}! Твой город: {city}."
+            if comment:
+                result += f" Комментарий: {comment}"
     else:
         form = GreetingForm()
 

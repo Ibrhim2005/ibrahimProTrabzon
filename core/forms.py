@@ -21,3 +21,12 @@ class GreetingForm(forms.Form):
             "max_length": "Название города слишком длинное.",
         },
     )
+
+    comment = forms.CharField(
+        label="Ваш комментарий",
+        max_length=1000,
+        widget=forms.Textarea(attrs={"rows": 3}),
+        error_messages={
+            "max_length": "Комментарий должен содержать не больше 300 символов.",
+        }
+    )
